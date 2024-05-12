@@ -3,7 +3,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-bool valid_argument(char curr_arg, char *single_args[], char *double_args[]) {
+// set the optional arguments
+const char *single_args[] = {"-p", "-n", "-V"};
+const char *double_args[] = {"--show-pids", "--numeric-sort", "--version"};
+
+bool valid_argument(char curr_arg) {
 	
 	// single arguments
 	for (int i = 0; *single_args[i] != '\0'; i++) {
@@ -24,15 +28,11 @@ bool valid_argument(char curr_arg, char *single_args[], char *double_args[]) {
 
 int main(int argc, char *argv[]) {
 
-  	// set the optional arguments
-	char *single_argument[] = {"-p", "-n", "-V"};
-	char *double_argument[] = {"--show-pids", "--numeric-sort", "--version"};
-
 	// iterate through the argv
 	for (int i = 1; i < argc; i++) {
 		assert(argv[i]);
 		// printf("argv[%d] = %s\n", i, argv[i]);
-		if (valid_argument(*argv[i], single_argument, double_argument) == false) {
+		if (valid_argument(*argv[i]) == false) {
 			// fprintf(stderr, "Invalid argument! Please select from ['-p', '-n', '-V', '--show-pids', '--numeric-sort', '--version']");
 			return 1;
 		}
