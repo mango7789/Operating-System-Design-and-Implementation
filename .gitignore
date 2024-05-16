@@ -1,2 +1,3 @@
 *.pdf
 os-workbench/.git/
+**/.vscode/
