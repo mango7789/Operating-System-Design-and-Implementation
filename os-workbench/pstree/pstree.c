@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 				break;
 			default:
 				printf("Pstree:\n");
-				printf("You can choose options from [-p, -n, -V] or [show-pids, numeric-sort, version].\n");
+				printf("You can choose options from [-p, -n, -V] or [--show-pids, --numeric-sort, --version].\n");
 				break;
 			}
 		}
@@ -180,11 +180,27 @@ void buildProcessTree(struct node *head) {
 }
 
 void printProcessTree(struct node *node, int depth, int type) {
+	if (node->ps.pid != 0) {
+		printProcess(node, type);
+		depth++;
+	}
 
+	for (struct node *p = node->child; p != NULL; p = p->next) {
+		for (int i = 0; i < depth; i++) {
+			printf(" ");
+		}
+		printProcessTree(p, depth, type);
+		
+	}
 }
 
 void printProcess(struct node *node, int type) {
-	
+	if (type == 0) {
+		fprintf(stdout, "%s\n", node->ps.name);
+	}
+	else if (type == 1) {
+		fprintf(stdout, "%s(%d)\n", node->ps.name, node->ps.pid);
+	}
 }
 
 
