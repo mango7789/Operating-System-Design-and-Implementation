@@ -8,6 +8,8 @@
 #include <assert.h>
 
 #define VERSION "Version: 0.0.1"
+#define HORIZONTAL "-+"
+#define VERTICAL "|"
 
 struct process_state {
 	/* define one process of the os */
@@ -67,10 +69,10 @@ int main(int argc, char *argv[]) {
 				printVersion();
 				break;
 			case 'p':
-				printProcessTree(head, 0, 0);
+				printProcessTree(head, 0, 1);
 				break;
 			case 'n':
-				printProcessTree(head, 0, 1);
+				printProcessTree(head, 0, 2);
 				break;
 			default:
 				printf("Pstree:\n");
@@ -181,14 +183,16 @@ void buildProcessTree(struct node *head) {
 
 void printProcessTree(struct node *node, int depth, int type) {
 	if (node->ps.pid != 0) {
+		printf("%s", HORIZONTAL);
 		printProcess(node, type);
 		depth++;
 	}
 
 	for (struct node *p = node->child; p != NULL; p = p->next) {
 		for (int i = 0; i < depth; i++) {
-			printf(" ");
+			printf("   ");
 		}
+		printf("%s", VERTICAL);
 		printProcessTree(p, depth, type);
 		
 	}
